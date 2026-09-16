@@ -1,0 +1,51 @@
+---
+import { whatsappLink, instagramUrl, facebookUrl, phoneNumber } from "../data/contact";
+
+const currentYear = new Date().getFullYear();
+const whatsapp = whatsappLink("Olá Geremias, gostaria de pedir um orçamento ✨");
+---
+
+<footer class="bg-[#1a1a1a] py-10 text-white/70">
+  <div class="mx-auto flex max-w-6xl flex-col items-center gap-5 px-5 text-center md:flex-row md:justify-between md:text-left">
+    <div class="flex items-center gap-3">
+      <span aria-hidden="true" class="glifo-assinatura flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/20 text-base text-[color:var(--color-primaria)]">
+        ✳
+      </span>
+      <div>
+        <p class="font-display text-lg text-white">Geremias Kiim</p>
+        <p class="text-xs tracking-widest text-white/50 uppercase">GKiim Hair &middot; Lisboa</p>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-center gap-2 text-sm">
+      <a href={instagramUrl} target="_blank" rel="noopener noreferrer" class="flex min-h-11 items-center rounded-full px-3 hover:text-white">Instagram</a>
+      <a href={facebookUrl} target="_blank" rel="noopener noreferrer" class="flex min-h-11 items-center rounded-full px-3 hover:text-white">Facebook</a>
+      <a href={whatsapp} target="_blank" rel="noopener noreferrer" class="flex min-h-11 items-center rounded-full px-3 hover:text-white">WhatsApp</a>
+      <a href={`tel:${phoneNumber}`} class="flex min-h-11 items-center rounded-full px-3 hover:text-white">Telefone</a>
+    </div>
+  </div>
+  <div class="mx-auto mt-10 h-px w-24 bg-white/10"></div>
+  <p class="mt-6 px-5 text-center text-xs text-white/30">&copy; {currentYear} Geremias Kiim. Todos os direitos reservados.</p>
+</footer>
+
+<a
+  href={whatsapp}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Peça seu orçamento no WhatsApp"
+  class="fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[color:var(--color-destaque)] text-white shadow-lg transition-opacity hover:opacity-90 lg:hidden"
+  style="touch-action: manipulation;"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width="26"
+    height="26"
+    fill="currentColor"
+    aria-hidden="true"
+  >
+    <path
+      d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.48 1.34 5L2 22l5.2-1.36a9.9 9.9 0 0 0 4.84 1.24h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2Zm5.84 14.24c-.25.7-1.24 1.3-2.03 1.47-.55.12-1.26.21-3.68-.79-2.9-1.2-4.76-4.12-4.9-4.31-.14-.19-1.17-1.56-1.17-2.98 0-1.42.74-2.11 1-2.4.25-.29.55-.36.73-.36.19 0 .37 0 .53.01.17.01.4-.06.63.48.25.6.83 2.02.9 2.17.07.15.12.32.02.51-.09.19-.14.31-.28.48-.14.16-.29.36-.42.48-.14.13-.28.28-.12.55.16.27.71 1.17 1.53 1.89 1.05.94 1.93 1.23 2.2 1.37.27.14.43.12.59-.07.16-.2.68-.79.86-1.06.18-.27.36-.22.6-.13.25.09 1.57.74 1.84.87.27.13.45.2.51.31.07.12.07.68-.18 1.38Z"
+    ></path>
+  </svg>
+</a>

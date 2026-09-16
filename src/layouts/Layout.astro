@@ -1,0 +1,115 @@
+---
+import "../styles/global.css";
+import { phoneNumber, instagramUrl, facebookUrl } from "../data/contact";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+
+// Dados confirmados em site-forge/brief/site-brief.json — sem invenção de domínio/endereço.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "HairSalon",
+  name: "Geremias Kiim | GKiim Hair",
+  description:
+    "Cabeleireiro e colorista independente especializado em loiros naturais, balayage e correção de cor, em Lisboa, Portugal.",
+  telephone: phoneNumber,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Lisboa",
+    addressRegion: "Santos",
+    addressCountry: "PT",
+  },
+  sameAs: [instagramUrl, facebookUrl],
+};
+---
+
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="pt_PT" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- Sem JS (bloqueado, CSP, falha de rede): o reveal-on-scroll não pode
+         deixar conteúdo em opacity:0 para sempre, e o menu mobile (Alpine)
+         não pode ficar um botão morto escondendo os links de navegação. -->
+    <noscript>
+      <style>
+        [data-reveal] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+        [data-js-toggle] {
+          display: none !important;
+        }
+        #mobile-nav[x-cloak] {
+          display: flex !important;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body class="bg-[#fdfcfb] text-[color:var(--color-texto)] antialiased">
+    <a href="#main" class="skip-link">Pular para o conteúdo</a>
+    <slot />
+    <script>
+      import Alpine from "alpinejs";
+      import focus from "@alpinejs/focus";
+      // @ts-ignore
+      window.Alpine = Alpine;
+      Alpine.plugin(focus);
+      Alpine.start();
+
+      // Scroll reveal leve — ver site-brief.json > motion
+      const revealEls = document.querySelectorAll("[data-reveal]");
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15 }
+        );
+        revealEls.forEach((el) => io.observe(el));
+      } else {
+        revealEls.forEach((el) => el.classList.add("is-visible"));
+      }
+
+      // Vídeo decorativo (mudo, loop contínuo, sem controles) — só pausa
+      // fora da tela por economia de recurso, sempre retoma ao voltar à
+      // vista; ver Essência (vídeo da formação em Londres).
+      const motionSafeVideos = document.querySelectorAll("[data-motion-safe]");
+      if ("IntersectionObserver" in window) {
+        const vio = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) entry.target.play();
+              else entry.target.pause();
+            });
+          },
+          { threshold: 0.25 }
+        );
+        motionSafeVideos.forEach((video) => vio.observe(video));
+      }
+    </script>
+  </body>
+</html>
